@@ -1,23 +1,29 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:first_project/router.dart';
 void main() {
-  runApp( MyApp());
+  runApp(const ProviderScope(child: MyAwesomeApp()));
 }
 
-class MyApp extends StatelessWidget {
-  MyApp({Key? key}) : super(key: key);
-     @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-    
-      themeMode: ThemeMode.dark,
-      theme: ThemeData(primarySwatch:Colors.blue),
-      darkTheme: ThemeData(
-        brightness: Brightness.dark
+class MyAwesomeApp extends ConsumerWidget {
+  const MyAwesomeApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    // Comment out the implementation you're not using
+    final router = ref.watch(routerProvider);
+
+    return MaterialApp.router(
+      routeInformationProvider: router.routeInformationProvider,
+      routeInformationParser: router.routeInformationParser,
+      routerDelegate: router.routerDelegate,
+      title: 'MyApp',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
       ),
-      routes: {
-        "/" :(context) => MyApp(),
-      },
-       );
-  }
-}
+    );
+  }}
+
+
+
+
