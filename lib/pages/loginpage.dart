@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-class LoginPage extends StatefulWidget {
+import '../user.dart';
+
+
+class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  ConsumerState<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends ConsumerState<LoginPage> {
+  //TextEditingController nameController = TextEditingController();
+  //TextEditingController passwordController = TextEditingController();
+  //static const String _title = 'Assignment';
   bool changebutton = false;
   final _formkey = GlobalKey<FormState>();
 
@@ -19,21 +26,22 @@ movetohome(BuildContext context) async {
                    
                 await Future.delayed(const Duration(seconds: 1));
                 // ignore: use_build_context_synchronously
-                 context.go('/homepage');
+                  ref.read(userProvider.notifier).login(
+                              "myEmail",
+                              "myPassword",
+                            );
                    setState(() {
                       changebutton = false;
                     });
   }
 }
-@override
+  @override
   Widget build(BuildContext context) {
       return Material (
         color: Colors.white,
         child: SingleChildScrollView(
-          child: Form(
-            key: _formkey,
             child: Column(
-            children: [
+            children:<Widget>[
               Image.asset(
                 "assets/images/login-image.png",
               fit: BoxFit.cover,
@@ -42,21 +50,23 @@ movetohome(BuildContext context) async {
               Text(
                 "Welcome",
                 style: TextStyle(
-                  fontSize: 28,
+                  fontSize: 35,
                   fontWeight: FontWeight.bold,
                 ),
                 ),
                 SizedBox(
                   height: 20.0,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                  children: [
-                TextFormField(
-                  decoration: InputDecoration(
-                    hintText: "Enter Username",
-                    labelText: "Username",
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  child: TextFormField(
+                   // controller: nameController,
+                    decoration: const InputDecoration(
+                     border: OutlineInputBorder(
+                        ),
+                      icon: Icon(Icons.person
+                      ),
+                      labelText: 'Email or User Name',
                     ),
                     validator: (value) {
                       if(value!.isEmpty){
@@ -64,13 +74,19 @@ movetohome(BuildContext context) async {
                       }
                       return null;
                     },
+                  ),
                 ),
-                    TextFormField(
-                    decoration: InputDecoration(
-                    hintText: "Enter Password",
-                    labelText: "Password",
+                Container(
+                  padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                  child: TextFormField(
+                    obscureText: true,
+                   // controller: passwordController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      icon: Icon(Icons.password),
+                      labelText: 'Password',
                     ),
-                    validator: (value) {
+                     validator: (value) {
                       if(value!.isEmpty){
                         return"password can`t be empty";
                       }
@@ -79,14 +95,18 @@ movetohome(BuildContext context) async {
                       }
                       return null;
                     },
+                  ),
                 ),
-                 SizedBox(
-                  height: 10.0,
+                SizedBox(
+                  height: 20,
                 ),
-                 Row(
+               Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
-                    TextButton(onPressed: () => context.go('/password'),
+                    TextButton(onPressed: () => ref.read(userProvider.notifier).password(
+                      "my",
+                      "me",
+                    ),
                      child: Text(
                       "Forgot Password?",
                       style: TextStyle(
@@ -95,12 +115,14 @@ movetohome(BuildContext context) async {
                     ))
                     ],
                 ),
-                 SizedBox(
-                  height: 40.0,
+                SizedBox(
+                  height: 20,
                 ),
-                
-                InkWell(
-                  onTap: () =>movetohome(context),
+               InkWell(
+                  onTap: () =>    ref.read(userProvider.notifier).login(
+                              "myEmail",
+                              "myPassword",
+                            ),
                   child: AnimatedContainer(
                     duration: Duration(seconds: 1),
                     width: changebutton? 50 : 150,
@@ -125,10 +147,10 @@ movetohome(BuildContext context) async {
                          ),
                       ),
                 ),
-                 SizedBox(
-                  height: 10.0,
+                SizedBox(
+                  height: 20,
                 ),
-                Row(
+               Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text("Dont`t have an account?"),
@@ -138,23 +160,13 @@ movetohome(BuildContext context) async {
                       style: TextStyle(
                     fontSize:20,
                     ),
-                    ))
+                    ),),
                     ],
                 ),
-                 //  ElevatedButton(
-              //  child: Text("Login"),
-              //    style: TextButton.styleFrom(minimumSize: Size(150,40)),
-              //    onPressed: () {
-              //      Navigator.pushNamed(context, MyRoutes.homeRoute);
-              //    },
-              //    )
-            ],
-                  ),
-            )
-            ],
-                  ),
-          ) 
-      )
+              ],
+            ),),
       );
   }
 }
+
+
