@@ -1,8 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../user.dart';
 import '../widgets/drawer.dart';
-class HomePage extends StatelessWidget {
-const HomePage({Key? key}) : super(key: key);
-@override
+
+
+class HomePage extends ConsumerStatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+
+  @override
+  ConsumerState<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends ConsumerState<HomePage> {
+ @override
 Widget build(BuildContext context)  => DefaultTabController(
   length: 3,
   child: Scaffold(
@@ -26,7 +36,7 @@ Widget build(BuildContext context)  => DefaultTabController(
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add, size: 32),
-        onPressed: () {
+        onPressed: () {ref.read(userProvider.notifier).logout();
           
          },
       ),
@@ -34,7 +44,6 @@ Widget build(BuildContext context)  => DefaultTabController(
 ),
 );
 }
-
 class Firstpage extends StatefulWidget {
   const Firstpage({Key? key}) : super(key: key);
 
@@ -46,22 +55,18 @@ class Firstpage extends StatefulWidget {
 class _FirstpageState extends State<Firstpage> {
 @override
 Widget build(BuildContext context) {
-  return Scaffold(
-    appBar: AppBar(
-      title: const Text(""),
-    ),
-   body: Center(
-      child: Container(
-        child: const Text("work in progress",
-        style: TextStyle(
-          color: Colors.greenAccent,
-          fontSize: 50,
-        ),),
+  return Row(
+    children: <Widget>[
+       const Text("work in progress",
+      style: TextStyle(
+        color: Colors.pinkAccent,
+        fontSize: 50,
       ),
       ),
-    );
+    ],
+    mainAxisAlignment: MainAxisAlignment.center,
+  );
 }}
-
 
 
 
@@ -76,25 +81,16 @@ class Secondpage extends StatefulWidget {
 class _SecondpageState extends State<Secondpage> {
 @override
 Widget build(BuildContext context) {
-  return Scaffold(
-    appBar: AppBar(
-      title: const Text(""),
-    ),
-   body: Center(
-      child: Container(
-        child: const Text("work in progress",
-        style: TextStyle(
-          color: Colors.yellowAccent,
-          fontSize: 50,
-        ),),
-      ),
-      ),
-    );
+  return Row(
+    children: <Widget> [
+      const Text("work in progress",
+  style: TextStyle(
+    color: Colors.greenAccent,
+    fontSize: 50,
+  ),),],
+  mainAxisAlignment: MainAxisAlignment.center,
+  );
 }}
-
-
-
-
 
 class Thirdpage extends StatefulWidget {
   const Thirdpage({Key? key}) : super(key: key);
@@ -107,18 +103,13 @@ class Thirdpage extends StatefulWidget {
 class _ThirdpageState extends State<Thirdpage> {
 @override
 Widget build(BuildContext context) {
-  return Scaffold(
-    appBar: AppBar(
-      title: const Text(""),
-    ),
-   body: Center(
-      child: Container(
-        child: const Text("work in progress",
-        style: TextStyle(
-          color: Colors.pinkAccent,
-          fontSize: 50,
-        ),),
-      ),
-      ),
-    );
+  return Row(
+    children: <Widget> [ 
+      const Text("work in progress",
+  style: TextStyle(
+    color: Colors.blueAccent,
+    fontSize: 50,
+  ),),],
+  mainAxisAlignment: MainAxisAlignment.center,
+  );
 }}
